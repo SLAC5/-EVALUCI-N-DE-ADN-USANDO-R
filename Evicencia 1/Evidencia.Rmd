@@ -1,0 +1,290 @@
+---
+title: "Evidencia"
+output: html_document
+---
+
+
+```{r}
+install.packages("tidyverse")
+library("tidyverse")
+install.packages("seqinr")
+library("seqinr")
+```
+
+
+```{r}
+MN908947 <- read.fasta("MN908947.fasta")
+MZ646828 <- read.fasta("MZ646828.fasta")
+OM943660 <- read.fasta("OM943660.fasta")
+OM720925 <- read.fasta("OM720925.fasta")
+MZ208926 <- read.fasta("MZ208926.fasta")
+MZ888515 <- read.fasta("MZ888515.fasta")
+OK190690 <- read.fasta("OK190690.fasta")
+
+```
+
+
+Función para cambiar string - vector.
+```{r}
+ToVector <- function(ADN){
+x <- c(ADN[[1]])
+return(x)
+}
+```
+
+
+Función para calcular tamaño del vector.
+```{r}
+tamaño <- function(dna){
+  return (length(dna))
+  
+}
+```
+
+
+Función para sacar porcentages desde una tabla
+```{r}
+Pcento <- function(dna) {
+  a <- table(dna)
+  percent = (a / length(dna))*100
+  return(percent)
+}
+```
+
+
+Función para invertir sucesiones.
+```{r}
+inversa <- function(Hdirecta) {
+  Hinversa <- rev(Hdirecta)
+  return(Hinversa)
+}
+```
+
+
+Función para transformar adn a complementaria. 
+```{r}
+ToCom <- function(dna){
+  com <- dna
+  for (i in 1:length(dna)) {
+    if (dna[i]== "T"){
+        com[i] <-"A"
+    }
+    else if (dna[i]== "A"){
+      com[i]<- "T"
+    }
+    else if (dna[i]== "G"){
+      com[i]<- "C"
+    }
+    else if (dna[i]== "C"){
+      com[i]<- "G"
+    }
+    else{
+      com[i]<-dna[i]
+    }
+  }
+  return(rna)
+}
+```
+
+
+
+Función para graficar. 
+```{r}
+compara <- function (seq1, seq2, seq3,seq4,seq5,seq6,seq7){
+  par(mfrow = c(3,1))
+  barplot(table(seq1),col = 1:4, main =
+getAnnot (seq1))
+  barplot(table(seq2),col = 1:4, main =
+getAnnot (seq2))
+  barplot(table(seq3),col = 1:4, main = 
+getAnnot (seq3))
+  barplot(table(seq4),col = 1:4, main =
+getAnnot (seq4))
+  barplot(table(seq5),col = 1:4, main =
+getAnnot (seq5))
+  barplot(table(seq6),col = 1:4, main = 
+getAnnot (seq6))
+  barplot(table(seq7),col = 1:4, main = 
+getAnnot (seq7))
+}
+```
+
+
+
+
+Convertir el string que obtuvimos a vector.
+```{r}
+Wuhan <- ToVector (MN908947)
+
+Newest <- ToVector (MZ646828)
+
+Afrims <- ToVector (OM943660)
+
+Omnicron <- ToVector (OM720925)
+
+Delta <- ToVector (MZ208926)
+
+Al <- ToVector (MZ888515)
+
+Epsilon <- ToVector (OK190690)
+
+```
+
+
+Análisis de cada variante.
+
+
+```{r}
+# Calcular tamaño
+WuhanS <- tamaño(Wuhan)
+cat("La variante Wuhan tiene una longitud de:",WuhanS)
+
+# Sacar porcentages
+WuhanG <- Pcento(Wuhan)
+cat("El porcentage de GC es:", WuhanG)
+
+# Graficar datos
+WuhanD <- as.data.frame(WuhanG)
+ggplot(data = WuhanD) + 
+  geom_col(mapping = aes(x = dna, y = Freq,color = dna))
+
+# Crear complementaria e inversa
+WuhanC <- ToCom(Wuhan)
+WuhanI <- inversa(WuhanC)
+```
+
+```{r}
+# Calcular tamaño
+NewestS <- tamaño(Newest)
+cat("La variante más nueva tiene una longitud de:",NewestS)
+
+# Sacar porcentages
+NewestG <- Pcento(Newest)
+cat("El porcentage de GC es:", NewestG)
+
+# Graficar datos
+NewestD <- as.data.frame(NewestG)
+ggplot(data = NewestD) + 
+  geom_col(mapping = aes(x = dna, y = Freq,color = dna))
+
+# Crear complementaria e inversa
+NewestC <- ToCom(Newest)
+NewestI <- inversa(NewestC)
+```
+
+```{r}
+# Calcular tamaño
+AfrimsS <- tamaño(Afrims)
+cat("La variante Afrims tiene una longitud de:",AfrimsS)
+
+# Sacar porcentages
+AfrimsG <- Pcento(Afrims)
+cat("El porcentage de GC es:", AfrimsG)
+
+# Graficar datos
+AfrimsD <- as.data.frame(AfrimsG)
+ggplot(data = AfrimsD) + 
+  geom_col(mapping = aes(x = dna, y = Freq,color = dna))
+
+# Crear complementaria e inversa
+AfrimsC <- ToCom(Afrims)
+AfrimsI <- inversa(AfrimsC)
+```
+
+```{r}
+# Calcular tamaño
+OmnicronS <- tamaño(Omnicron)
+cat("La variante Omnicron tiene una longitud de:",OmnicronS)
+
+#Sacar porcentages
+OmnicronG <- Pcento(Omnicron)
+cat("El porcentage de GC es:", OmnicronG)
+
+# Graficar datos
+OmnicronD <- as.data.frame(OmnicronG)
+ggplot(data = OmnicronD) + 
+  geom_col(mapping = aes(x = dna, y = Freq,color = dna))
+
+# Crear complementaria e inversa
+OmnicronC <- ToCom(Omnicron)
+OmnicronI <- inversa(OmnicronC)
+```
+
+
+```{r}
+# Calcular tamaño
+DeltaS <- tamaño(Delta)
+cat("La variante DELTA tiene una longitud de:",DeltaS)
+
+# Sacar porcentages
+DeltaG <- Pcento(Delta)
+cat("El porcentage de GC es:", DeltaG)
+
+# Graficar datos
+DeltaD <- as.data.frame(DeltaG)
+ggplot(data = DeltaD) + 
+  geom_col(mapping = aes(x = dna, y = Freq,color = dna))
+
+# Crear complementaria e inversa
+DeltaC <- ToCom(Delta)
+DeltaI <- inversa(DeltaC)
+```
+
+
+```{r}
+# Calcular tamaño
+AlS <- tamaño(Al)
+cat("La variante Alpha tiene una longitud de:",AlS)
+
+# Sacar porcentages
+AlG <- Pcento(Al)
+cat("El porcentage de GC es:", AlG)
+
+# Graficar datos
+AlD <- as.data.frame(AlG)
+ggplot(data = AlD) + 
+  geom_col(mapping = aes(x = dna, y = Freq,color = dna))
+
+# Crear complementaria e inversa
+AlC <- ToCom(Al)
+AlI <- inversa(AlC)
+```
+
+
+```{r}
+# Calcular tamaño
+EpsilonS <- tamaño(Epsilon)
+cat("La variante Epsilon tiene una longitud de:",EpsilonS)
+
+# Sacar porcentages
+EpsilonG <- Pcento(Epsilon)
+cat("El porcentage de GC es:", EpsilonG)
+
+# Graficar datos
+EpsilonD <- as.data.frame(EpsilonG)
+ggplot(data = EpsilonD) + 
+  geom_col(mapping = aes(x = dna, y = Freq,color = dna))
+
+# Crear complementaria e inversa
+EpsilonC <- ToCom(Epsilon)
+EpsilonI <- inversa(EpsilonC)
+```
+
+Comaración de gráficas.
+
+```{r}
+count(MN908947[[1]],1)
+count(MZ646828[[1]],1)
+count(OM943660[[1]],1)
+count(OM720925 [[1]],1)
+count(MZ208926[[1]],1)
+count(MZ888515[[1]],1)
+count(OK190690[[1]],1)
+
+compara(MN908947[[1]], MZ646828[[1]], OM943660[[1]],OM720925 [[1]],MZ208926[[1]],MZ888515[[1]],OK190690[[1]])
+```
+
+
+
+
+
